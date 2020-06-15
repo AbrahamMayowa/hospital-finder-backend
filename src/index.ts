@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from 'body-parser'
+import rp from 'request-promise'
 
 dotenv.config();
 
@@ -19,9 +20,44 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', function (req, res){
-    //res.send('Hello World!'
+app.get('/', async (req, res)=>{
+    const querySearch: string = req.body.querySearch
+    const geoFence : number | null = req.body.geoFence
+    const latitude : number | null = req.body.latitude
+    const longitude : number | null = req.body.longitude
+ 
+    interface RequestObject {
+        uri: string;
+        headers: object;
+        json: boolean;
+    }
+    
+    let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&key=${process.env.GOOGLE_API}`
+
+
+    if(typeof geoFence == 'number'){
+        console.log('true')
+        uri = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&location=${latitude},${longitude}&radius=${geoFence}&key=${process.env.GOOGLE_API}`
+    }
+
+    const options: RequestObject = {
+        uri: uri,
+      
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true 
+    }
+
+    try{
+    const responseData: object = await rp(options)
+    res.status(200).json({data: responseData})
+    }catch(error){
+        console.log(error)
+        res.status(500).json({error})
+    }
 })
+
 
 const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
