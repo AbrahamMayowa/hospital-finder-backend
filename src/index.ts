@@ -32,7 +32,7 @@ app.get('/', async (req, res)=>{
         json: boolean;
     }
     
-    let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&key=${process.env.GOOGLE_API}`
+    let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&type=hospital&region=ng&key=${process.env.GOOGLE_API}`
 
 
     if(typeof geoFence == 'number'){
