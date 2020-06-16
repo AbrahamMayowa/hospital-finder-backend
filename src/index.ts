@@ -1,15 +1,12 @@
-import * as dotenv from "dotenv";
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from 'body-parser'
 import rp from 'request-promise'
 
-dotenv.config();
 
-if (!process.env.PORT) {
-    process.exit(1);
-}
+
  
 const PORT: number = parseInt(process.env.PORT as string, 10);
  
@@ -20,11 +17,12 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', async (req, res)=>{
+app.post('/api', async (req, res)=>{
     const querySearch: string = req.body.querySearch
     const geoFence : number | null = req.body.geoFence
     const latitude : number | null = req.body.latitude
     const longitude : number | null = req.body.longitude
+    console.log(querySearch, geoFence, latitude, longitude)
  
     interface RequestObject {
         uri: string;
@@ -54,7 +52,7 @@ app.get('/', async (req, res)=>{
     res.status(200).json({data: responseData})
     }catch(error){
         console.log(error)
-        res.status(500).json({error})
+        res.status(500).json({error: 'server error why'})
     }
 })
 
