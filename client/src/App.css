@@ -1,38 +1,89 @@
-.App {
+@import '~antd/dist/antd.css';
+
+.header-wrapper{
+  background-color:  #2d7a9c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 300px;
+  position: relative;
+  color:#ffffff;
+
+}
+
+.website-name{
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  font-size: 18px;
+  font-family: 'Lobster', cursive;
+}
+.text-wrapper{
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.header-main-text{
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: -6px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header-sec-text{
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-wrapper{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 40%;
+  justify-content: flex-end;
+  margin-top: -16px;
 }
 
-.App-link {
-  color: #61dafb;
+.search{
+  width: 250px;
+  border-radius: 5px;
+  height: 50px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.select{
+width: 150px;
+}
+
+@media screen and (min-width: 700px) {
+  .header-wrapper{
+    height: 400px;
   }
-  to {
-    transform: rotate(360deg);
+  .website-name{
+    font-size: 27px;
+  }
+  .header-main-text{
+    font-size: 30px;
+    text-align: center;
+  }
+  .input-wrapper{
+    justify-content: center;
+    margin-top: -14px;
+  }
+
+  .header-sec-text{
+    font-size: 20px;
+    text-align: center;
+  }
+  .search{
+    width: 350px;
+  }
+
+
+  .select{
+    width: 250px;
   }
 }
