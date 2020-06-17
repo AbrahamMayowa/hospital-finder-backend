@@ -18,11 +18,6 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/src/build/index.html'));
-});
 
 
 app.post('/api', async (req, res)=>{
