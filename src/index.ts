@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 
-app.post('/api', async (req, res)=>{
+app.post('/', async (req, res)=>{
     const querySearch: string = req.body.querySearch
     const geoFence : number | null = req.body.geoFence
     const latitude : number | null = req.body.latitude
