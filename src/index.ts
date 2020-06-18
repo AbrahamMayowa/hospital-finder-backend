@@ -33,13 +33,8 @@ app.post('/', async (req, res)=>{
         json: boolean;
     }
     
-    let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&type=hospital&region=ng&key=${process.env.GOOGLE_API}`
+    let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&location=${latitude},${longitude}&region=ng&radius=${geoFence}&key=${process.env.GOOGLE_API}`
 
-
-    if(typeof geoFence == 'number'){
-        console.log('true')
-        uri = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&location=${latitude},${longitude}&radius=${geoFence}&key=${process.env.GOOGLE_API}`
-    }
 
     const options: RequestObject = {
         uri: uri,
