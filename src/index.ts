@@ -50,7 +50,7 @@ app.post('/', async (req, res)=>{
     res.status(200).json({data: responseData})
     }catch(error){
         console.log(error)
-        res.status(500).json({error: 'server error why'})
+        res.status(500).json({error: 'server error '})
     }
 })
 
