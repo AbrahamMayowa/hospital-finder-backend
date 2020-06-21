@@ -4,14 +4,17 @@ import cors from "cors";
 import helmet from "helmet";
 import bodyParser from 'body-parser'
 import rp from 'request-promise'
-import path from 'path'
+import * as admin from "firebase-admin"
+const serviceAccount = require('../firebaseCredential.json');
+import dotenv from 'dotenv'
+import SearchHistory from "../model";
+import { promises } from "fs";
+const db = require('../firebase')
 
-
-
- 
-const PORT: number = parseInt(process.env.PORT as string, 10);
  
 const app = express();
+
+dotenv.config()
 
 app.use(helmet());
 app.use(cors());
@@ -19,12 +22,22 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
+app.get('/search-history', async (req, res)=>{
+  try{
+    const allHistory = await SearchHistory.getHistory()
+    res.status(200).json({history: allHistory})
+  }catch(error){
+    res.status(404).json({error})
+  }
+})
+
 
 app.post('/', async (req, res)=>{
+
     const querySearch: string = req.body.querySearch
-    const geoFence : number | null = req.body.geoFence
-    const latitude : number | null = req.body.latitude
-    const longitude : number | null = req.body.longitude
+    const geoFence : number = req.body.geoFence
+    const latitude : number  = req.body.latitude
+    const longitude : number = req.body.longitude
     console.log(querySearch, geoFence, latitude, longitude)
  
     interface RequestObject {
@@ -32,7 +45,7 @@ app.post('/', async (req, res)=>{
         headers: object;
         json: boolean;
     }
-    
+
     let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&location=${latitude},${longitude}&region=ng&radius=${geoFence}&key=${process.env.GOOGLE_API}`
 
 
@@ -46,18 +59,45 @@ app.post('/', async (req, res)=>{
     }
 
     try{
-    const responseData: object = await rp(options)
-    res.status(200).json({data: responseData})
+      const searchDb = new SearchHistory(
+        querySearch, 
+        geoFence, 
+        latitude, 
+        longitude
+      )
+      // store the class instances in the db
+      searchDb.createHistory()
+      const responseData: object = await rp(options)
+      res.status(201).json({data: responseData})
     }catch(error){
         console.log(error)
         res.status(500).json({error: 'server error '})
     }
 })
 
-
-const server = app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+const initiaApp=()=>{
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
   });
+  return new Promise((resolve, reject)=>{
+    resolve(()=>{
+     console.log('done')
+    });
+  })
+  
+}
+
+interface ClosingSer{
+  close: any
+}
+
+
+
+  const server = app.listen(process.env.PORT, () => {
+ 
+    console.log(`Listening on port ${process.env.PORT}`);
+    });
+
 
   type ModuleId = string | number;
 
