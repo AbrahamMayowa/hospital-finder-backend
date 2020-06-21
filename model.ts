@@ -16,7 +16,7 @@ class SearchHistory{
       this.geoFence = geoFence;
       this.latitude = latitude;
       this.longitude = longitude;
-      this.actionDate = new Date()
+      this.actionDate = new Date().toISOString
   }
 
   createHistory=()=>{
@@ -27,7 +27,7 @@ class SearchHistory{
        geoFence: this.geoFence,
        latitude: this.latitude,
        longitude: this.longitude,
-       actionDate: new Date().toISOString
+       actionDate: this.actionDate
       });
   }
 

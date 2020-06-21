@@ -62,7 +62,7 @@ app.post('/', async (req, res)=>{
         querySearch, 
         geoFence, 
         latitude, 
-        longitude
+        longitude,
       )
       // store the class instances in the db
       searchDb.createHistory()
