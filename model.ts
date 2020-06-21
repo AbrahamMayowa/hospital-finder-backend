@@ -27,7 +27,7 @@ class SearchHistory{
        geoFence: this.geoFence,
        latitude: this.latitude,
        longitude: this.longitude,
-       ActionDate: new Date()
+       ActionDate: new Date().getDate
       });
   }
 

@@ -7,5 +7,4 @@ admin.initializeApp({
 
 // Set up database connection
 const firestoreDb: FirebaseFirestore.Firestore = admin.firestore();
-firestoreDb.settings({ timestampsInSnapshots: true });
 export default firestoreDb;
