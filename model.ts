@@ -19,8 +19,6 @@ class SearchHistory{
       this.actionDate = new Date()
   }
 
-
-
   createHistory=()=>{
     let db = admin.firestore()
       let docRef = db.collection('searchHistory').doc();
