@@ -6,7 +6,6 @@ import bodyParser from 'body-parser'
 import rp from 'request-promise'
 import * as admin from "firebase-admin"
 const serviceAccount = require('../firebaseCredential.json');
-import dotenv from 'dotenv'
 import SearchHistory from "../model";
 import { promises } from "fs";
 const db = require('../firebase')
@@ -14,7 +13,7 @@ const db = require('../firebase')
  
 const app = express();
 
-dotenv.config()
+
 
 app.use(helmet());
 app.use(cors());
