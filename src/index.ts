@@ -75,17 +75,6 @@ app.post('/', async (req, res)=>{
     }
 })
 
-const initiaApp=()=>{
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-  return new Promise((resolve, reject)=>{
-    resolve(()=>{
-     console.log('done')
-    });
-  })
-  
-}
 
 interface ClosingSer{
   close: any
