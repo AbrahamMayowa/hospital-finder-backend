@@ -1,5 +1,6 @@
 
 import * as admin from "firebase-admin"
+import { userInfo } from "os"
 //import {db} from './firebase'
 
 
@@ -10,13 +11,15 @@ class SearchHistory{
     latitude: number
     longitude: number
     actionDate: any
+    userId: string
 
-  constructor(querySearch: string, geoFence: number, latitude: number, longitude: number){
+  constructor(querySearch: string, geoFence: number, latitude: number, longitude: number, userId: string){
       this.querySearch = querySearch;
       this.geoFence = geoFence;
       this.latitude = latitude;
       this.longitude = longitude;
-      this.actionDate = new Date()
+      this.actionDate = new Date();
+      this.userId = userId
   }
 
   createHistory=()=>{
@@ -27,16 +30,18 @@ class SearchHistory{
        geoFence: this.geoFence,
        latitude: this.latitude,
        longitude: this.longitude,
-       actionDate: this.actionDate
+       actionDate: this.actionDate,
+       userId: this.userId
       });
   }
 
-  static getHistory = async ()=>{
+  static getHistory = async (userId:string)=>{
     let db = admin.firestore()
     const searchCollection = db.collection('searchHistory')
     const result = await searchCollection.get()
-    const docResult = result.docs.map(item=> item.data())
-    return docResult
+    // only search history of authenticated user will be return
+    return result.docs.filter(item=> item.data().userId === userId)
+    //return docResult.filter(item=> item.userId === userId)
   }
 
 }

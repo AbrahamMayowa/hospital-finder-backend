@@ -7,4 +7,5 @@ admin.initializeApp({
 
 // Set up database connection
 const firestoreDb: FirebaseFirestore.Firestore = admin.firestore();
+
 export default firestoreDb;

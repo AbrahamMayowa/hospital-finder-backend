@@ -4,14 +4,21 @@ import cors from "cors";
 import helmet from "helmet";
 import bodyParser from 'body-parser'
 import rp from 'request-promise'
+import {ApolloServer} from 'apollo-server-express'
+import {buildSchema} from 'type-graphql'
 import * as admin from "firebase-admin"
 const serviceAccount = require('../firebaseCredential.json');
 import SearchHistory from "../model";
 import { promises } from "fs";
-const db = require('../firebase')
+import graphqlHTTP from 'express-graphql'
+import schema from '../graphQL/schema'
+import resolver from '../graphQL/resolver'
+import dotenv from 'dotenv'
+
 
  
 const app = express();
+dotenv.config()
 
 
 
@@ -20,7 +27,7 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
+/*
 app.get('/search-history', async (req, res)=>{
   try{
     const allHistory = await SearchHistory.getHistory()
@@ -63,6 +70,7 @@ app.post('/', async (req, res)=>{
         geoFence, 
         latitude, 
         longitude,
+        userId: ''
       )
       // store the class instances in the db
       searchDb.createHistory()
@@ -74,13 +82,15 @@ app.post('/', async (req, res)=>{
     }
 })
 
-
-interface ClosingSer{
-  close: any
-}
+*/
 
 
-
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolver,
+  graphiql: true,
+})
+)
   const server = app.listen(process.env.PORT, () => {
  
     console.log(`Listening on port ${process.env.PORT}`);
