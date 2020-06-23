@@ -40,8 +40,8 @@ class SearchHistory{
     const searchCollection = db.collection('searchHistory')
     const result = await searchCollection.get()
     // only search history of authenticated user will be return
-    return result.docs.filter(item=> item.data().userId === userId)
-    //return docResult.filter(item=> item.userId === userId)
+    const userHistory = result.docs.filter(item=> item.data().userId === userId)
+    return userHistory.map(item=> item.data())
   }
 
 }

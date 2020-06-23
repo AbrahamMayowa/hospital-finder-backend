@@ -1,5 +1,5 @@
 
-import express from "express";
+import express, {RequestHandler}from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from 'body-parser'
@@ -13,6 +13,7 @@ import { promises } from "fs";
 import graphqlHTTP from 'express-graphql'
 import schema from '../graphQL/schema'
 import resolver from '../graphQL/resolver'
+import authMiddleware from './controllers/authMiddleware'
 import dotenv from 'dotenv'
 
 
@@ -84,6 +85,7 @@ app.post('/', async (req, res)=>{
 
 */
 
+app.use(<RequestHandler>authMiddleware)
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,

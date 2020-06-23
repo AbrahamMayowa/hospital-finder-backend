@@ -5,8 +5,8 @@ const schema = buildSchema(`
     input SearchInput{
         querySearch: String!
         geoFence: Int
-        latitude: Int
-        longitude: Int
+        latitude: Float
+        longitude: Float
         searchType: String
     }
 
@@ -18,8 +18,8 @@ const schema = buildSchema(`
 
 
     type HistoryObject{
-        latitude: Int!
-        longitude: Int!
+        latitude: String!
+        longitude: String!
         querySearch: String!
     }
 
@@ -29,7 +29,7 @@ const schema = buildSchema(`
     }
 
     type RootQuery{
-        getHistory:[HistoryObject]
+        getHistory:[HistoryObject!]
     }
 
     type RootMutation{

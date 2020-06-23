@@ -17,6 +17,10 @@ interface SearchInput{
    searchType: string
 }
 
+interface InputObject{
+    searchInput: SearchInput
+}
+
 interface RequestObject {
     uri: string
     headers: object
@@ -38,16 +42,20 @@ interface DataObject{
 }
 
 interface ApiResponse{
-    data: DataObject
+    results: EachSearch[]
 }
 
 
 
 const mainResolver = {
     //resolve places finding logic and populate user search history
-    getSearch: async function({querySearch, geoFence, latitude, longitude, searchType}:SearchInput, req:ExpressRequest){
-        
-        let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${querySearch}&location=${latitude},${longitude}&region=ng&radius=${geoFence}&key=${process.env.GOOGLE_API}`
+    getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
+        console.log(searchInput.querySearch,)
+        if(!req.userId){
+            //user is not authenticated
+            throw Error('Access Forbidding')
+        }
+        let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput.querySearch}&location=${searchInput.latitude},${searchInput.longitude}&region=ng&radius=${searchInput.geoFence}&key=${process.env.GOOGLE_API}`
     
         // api resquest configuration
         const options: RequestObject = {
@@ -64,10 +72,10 @@ const mainResolver = {
 
         // user specific seearch history
         const searchDb = new SearchHistory(
-            querySearch, 
-            geoFence, 
-            latitude, 
-            longitude,
+            searchInput.querySearch, 
+            searchInput.geoFence, 
+            searchInput.latitude, 
+            searchInput.longitude,
             userId
         )
           // store the class instances in the db
@@ -76,7 +84,8 @@ const mainResolver = {
         const responseData: ApiResponse = await rp(options)
           
         //return array of object
-        return responseData.data.results.map(item => ({
+        console.log(responseData)
+        return responseData.results.map(item => ({
            
                 formatted_address: item.formatted_address,
                 name: item.name,
@@ -86,7 +95,12 @@ const mainResolver = {
     },
 
     getHistory: async function(args:any, req:ExpressRequest){
+        if(!req.userId){
+            //user is not authenticated
+            throw Error('Access Forbidding')
+        }
         const allHistory: any[] = await SearchHistory.getHistory(req.userId)
+        console.log(allHistory)
         return allHistory.map(item=>{
             return {
                 latitude: item.latitude,
