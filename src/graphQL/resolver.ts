@@ -35,6 +35,7 @@ interface EachSearch{
     formatted_address: string
     name: string
     user_ratings_total: number
+    
 }
 
 interface DataObject{
@@ -43,6 +44,7 @@ interface DataObject{
 
 interface ApiResponse{
     results: EachSearch[]
+    type: []
 }
 
 
@@ -50,6 +52,7 @@ interface ApiResponse{
 const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
+        console.log(searchInput)
         if(!req.userId){
             //user is not authenticated
             throw Error('Access Forbidding')
@@ -82,6 +85,7 @@ const mainResolver = {
         searchDb.createHistory()
 
         const responseData: ApiResponse = await rp(options)
+        
           
         //return array of object
         return responseData.results.map(item => ({
@@ -102,11 +106,13 @@ const mainResolver = {
         }
         try{
             const allHistory: any[] = await SearchHistory.getHistory(req.userId)
+            console.log(allHistory)
             return allHistory.map(item=>{
                 return {
                     latitude: item.latitude,
                     longitude: item.longitude,
-                    querySearch: item.querySearch
+                    querySearch: item.querySearch,
+                    geoFence: item.geoFence
                 }
             })
         }catch(error){

@@ -21,6 +21,7 @@ const schema = buildSchema(`
         latitude: Float!
         longitude: Float!
         querySearch: String!
+        geoFence: Int!
     }
 
  
