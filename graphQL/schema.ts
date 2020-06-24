@@ -13,7 +13,7 @@ const schema = buildSchema(`
     type ResultObject{
         formatted_address: String!
         name: String!
-        user_rating_total: String!
+        user_rating_total: String
     }
 
 
