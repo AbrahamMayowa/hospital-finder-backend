@@ -7,7 +7,7 @@ interface ExpressRequest extends Request{
 }
 
 const getAuthTokenMiddleware = async(req:ExpressRequest, res:Response, next:NextFunction) => {
-    
+    try{
     if (
       req.headers.authorization &&
       req.headers.authorization.split(' ')[0] === 'Bearer'
@@ -19,6 +19,9 @@ const getAuthTokenMiddleware = async(req:ExpressRequest, res:Response, next:Next
       req.userId = null
     }
     next();
+  }catch(error){
+    next()
+  }
   }
 export default getAuthTokenMiddleware
   

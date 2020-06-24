@@ -55,7 +55,8 @@ const mainResolver = {
             throw Error('Access Forbidding')
         }
         let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput.querySearch}&location=${searchInput.latitude},${searchInput.longitude}&region=ng&radius=${searchInput.geoFence}&key=${process.env.GOOGLE_API}`
-    
+        
+        try{
         // api resquest configuration
         const options: RequestObject = {
             uri: uri,
@@ -89,6 +90,9 @@ const mainResolver = {
                 user_rating_total: item.user_ratings_total
           })
         )
+        }catch(error){
+            throw error
+        }
     },
 
     getHistory: async function(args:any, req:ExpressRequest){
@@ -96,14 +100,21 @@ const mainResolver = {
             //user is not authenticated
             throw Error('Access Forbidding')
         }
-        const allHistory: any[] = await SearchHistory.getHistory(req.userId)
-        return allHistory.map(item=>{
-            return {
-                latitude: item.latitude,
-                longitude: item.longitude,
-                querySearch: item.querySearch
-            }
-        })
+        try{
+            const allHistory: any[] = await SearchHistory.getHistory(req.userId)
+            return allHistory.map(item=>{
+                return {
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                    querySearch: item.querySearch
+                }
+            })
+        }catch(error){
+            console.log(error)
+            throw error
+        }
+       
+        
     }
 
 
