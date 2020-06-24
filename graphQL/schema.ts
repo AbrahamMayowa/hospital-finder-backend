@@ -18,8 +18,8 @@ const schema = buildSchema(`
 
 
     type HistoryObject{
-        latitude: String!
-        longitude: String!
+        latitude: Int!
+        longitude: Int!
         querySearch: String!
     }
 

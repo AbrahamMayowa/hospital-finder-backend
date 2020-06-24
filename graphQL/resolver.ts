@@ -34,7 +34,7 @@ interface ExpressRequest extends Request{
 interface EachSearch{
     formatted_address: string
     name: string
-    user_rating_total: number
+    user_ratings_total: number
 }
 
 interface DataObject{
@@ -50,7 +50,6 @@ interface ApiResponse{
 const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
-        console.log(searchInput.querySearch,)
         if(!req.userId){
             //user is not authenticated
             throw Error('Access Forbidding')
@@ -84,12 +83,10 @@ const mainResolver = {
         const responseData: ApiResponse = await rp(options)
           
         //return array of object
-        console.log(responseData)
         return responseData.results.map(item => ({
-           
                 formatted_address: item.formatted_address,
                 name: item.name,
-                user_rating_total: item.user_rating_total
+                user_rating_total: item.user_ratings_total
           })
         )
     },
@@ -100,7 +97,6 @@ const mainResolver = {
             throw Error('Access Forbidding')
         }
         const allHistory: any[] = await SearchHistory.getHistory(req.userId)
-        console.log(allHistory)
         return allHistory.map(item=>{
             return {
                 latitude: item.latitude,
