@@ -11,8 +11,8 @@ const serviceAccount = require('../firebaseCredential.json');
 import SearchHistory from "../model";
 import { promises } from "fs";
 import graphqlHTTP from 'express-graphql'
-import schema from '../graphQL/schema'
-import resolver from '../graphQL/resolver'
+import schema from './graphQL/schema'
+import resolver from './graphQL/resolver'
 import authMiddleware from './controllers/authMiddleware'
 import dotenv from 'dotenv'
 

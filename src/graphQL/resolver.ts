@@ -1,9 +1,9 @@
-import SearchHistory from '../model'
-const serviceAccount = require('../firebaseCredential.json')
+import SearchHistory from '../../model'
+const serviceAccount = require('../../firebaseCredential.json')
 import rp from 'request-promise'
 import validator from 'validator'
 import * as admin from "firebase-admin"
-const db = require('../firebase')
+const db = require('../../firebase')
 import {Request} from 'express'
 import { userInfo } from 'os';
 import { maxHeaderSize } from 'http';

@@ -11,29 +11,25 @@ const schema = buildSchema(`
     }
 
     type ResultObject{
-        formatted_address: String!
-        name: String!
+        formatted_address: String
+        name: String
         user_rating_total: String
     }
 
 
     type HistoryObject{
-        latitude: Int!
-        longitude: Int!
+        latitude: Float!
+        longitude: Float!
         querySearch: String!
     }
 
-    type SignupSuccess{
-        email: String!
-        password: String!
-    }
+ 
 
     type RootQuery{
         getHistory:[HistoryObject!]
     }
 
     type RootMutation{
-        createUser(password: String!, email: String!): SignupSuccess
         getSearch(searchInput: SearchInput): [ResultObject]
     }
 
