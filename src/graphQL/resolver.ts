@@ -53,11 +53,20 @@ const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
         console.log(searchInput)
+        let additionQuery: string = 'hospitals'
+        if(searchInput.searchType === 'pharmacy'){
+            additionQuery = 'pharmacies'
+        }
+        const query: string = `${additionQuery} in ${searchInput.querySearch}`
+        console.log(query)
         if(!req.userId){
             //user is not authenticated
             throw Error('Access Forbidding')
         }
-        let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput.querySearch}&location=${searchInput.latitude},${searchInput.longitude}&region=ng&radius=${searchInput.geoFence}&key=${process.env.GOOGLE_API}`
+
+       
+        //`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=hospitals in ${ searchInput.querySearch}&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,user_ratings_total&locationbias=circle:${searchInput.geoFence}@${searchInput.latitude},${searchInput.longitude}&key=${process.env.GOOGLE_API}`
+        let uri: string = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&location=${searchInput.latitude},${searchInput.longitude}&region=ng&radius=${searchInput.geoFence}&key=${process.env.GOOGLE_API}`
         
         try{
         // api resquest configuration
@@ -85,6 +94,7 @@ const mainResolver = {
         searchDb.createHistory()
 
         const responseData: ApiResponse = await rp(options)
+        console.log(responseData)
         
           
         //return array of object

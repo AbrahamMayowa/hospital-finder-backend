@@ -16,7 +16,7 @@ const getAuthTokenMiddleware = async(req:ExpressRequest, res:Response, next:Next
         const userInfo = await admin.auth().verifyIdToken(token);
         req.userId = userInfo.uid;
     } else {
-      req.userId = null
+      req.userId = 'FFFF'
     }
     next();
   }catch(error){
