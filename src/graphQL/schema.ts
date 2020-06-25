@@ -7,7 +7,7 @@ const schema = buildSchema(`
         geoFence: Int!
         latitude: Float!
         longitude: Float!
-        searchType: String!
+        searchType: String
     }
 
     type ResultObject{
