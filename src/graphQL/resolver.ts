@@ -52,10 +52,15 @@ interface ApiResponse{
 const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
-        console.log(searchInput)
-        let additionQuery: string = 'hospitals'
+        let additionQuery
         if(searchInput.searchType === 'pharmacy'){
             additionQuery = 'pharmacies'
+        }else if(searchInput.searchType === 'clinics'){
+            additionQuery = 'clinics'
+        }else if(searchInput.searchType === 'medical offices'){
+            additionQuery = 'medical offices'
+        }else{
+            additionQuery = 'hospitals'
         }
         const query: string = `${additionQuery} in ${searchInput.querySearch}`
         console.log(query)
