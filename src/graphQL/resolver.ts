@@ -52,17 +52,22 @@ interface ApiResponse{
 const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
+        let query;
         let additionQuery
         if(searchInput.searchType === 'pharmacy'){
             additionQuery = 'pharmacies'
+            query= `${additionQuery} in ${searchInput.querySearch}`
         }else if(searchInput.searchType === 'clinics'){
             additionQuery = 'clinics'
+            query= `${additionQuery} in ${searchInput.querySearch}`
         }else if(searchInput.searchType === 'medical offices'){
             additionQuery = 'medical offices'
+            query= `${additionQuery}  ${searchInput.querySearch}`
         }else{
             additionQuery = 'hospitals'
+            query= `${additionQuery} in ${searchInput.querySearch}`
         }
-        const query: string = `${additionQuery} in ${searchInput.querySearch}`
+        
         console.log(query)
         if(!req.userId){
             //user is not authenticated
