@@ -4,10 +4,10 @@ const schema = buildSchema(`
 
     input SearchInput{
         querySearch: String!
-        geoFence: Int
-        latitude: Float
-        longitude: Float
-        searchType: String
+        geoFence: Int!
+        latitude: Float!
+        longitude: Float!
+        searchType: String!
     }
 
     type ResultObject{
