@@ -52,8 +52,11 @@ interface ApiResponse{
 const mainResolver = {
     //resolve places finding logic and populate user search history
     getSearch: async function({searchInput}:InputObject, req:ExpressRequest){
+        // to reflect search type in the query result.
         let query;
         let additionQuery
+
+        //additionaQuery will be added to the search query.
         if(searchInput.searchType === 'pharmacy'){
             additionQuery = 'pharmacies'
             query= `${additionQuery} in ${searchInput.querySearch}`
