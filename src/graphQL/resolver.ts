@@ -93,7 +93,8 @@ const mainResolver = {
             searchInput.geoFence, 
             searchInput.latitude, 
             searchInput.longitude,
-            userId
+            userId,
+            searchInput.searchType
         )
           // store the class instances in the db
         searchDb.createHistory()
@@ -123,11 +124,15 @@ const mainResolver = {
             const allHistory: any[] = await SearchHistory.getHistory(req.userId)
             console.log(allHistory)
             return allHistory.map(item=>{
+                let itemSplit = item.querySearch.split(' ')
+                const updateSplite = itemSplit.slice(2)
+                const updatedQuery = updateSplite.join(' ')
                 return {
                     latitude: item.latitude,
                     longitude: item.longitude,
-                    querySearch: item.querySearch,
-                    geoFence: item.geoFence
+                    querySearch: updatedQuery,
+                    geoFence: item.geoFence,
+                    searchType: item.searchType
                 }
             })
         }catch(error){

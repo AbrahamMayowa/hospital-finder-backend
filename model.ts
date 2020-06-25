@@ -12,14 +12,16 @@ class SearchHistory{
     longitude: number
     actionDate: any
     userId: string
+    searchType: any
 
-  constructor(querySearch: string, geoFence: number, latitude: number, longitude: number, userId: string){
+  constructor(querySearch: string, geoFence: number, latitude: number, longitude: number, userId: string, searchType: any){
       this.querySearch = querySearch;
       this.geoFence = geoFence;
       this.latitude = latitude;
       this.longitude = longitude;
       this.actionDate = new Date();
       this.userId = userId
+      this.searchType = searchType || 'hospitals'
   }
 
   createHistory=()=>{
@@ -31,7 +33,8 @@ class SearchHistory{
        latitude: this.latitude,
        longitude: this.longitude,
        actionDate: this.actionDate,
-       userId: this.userId
+       userId: this.userId,
+       searchType: this.searchType
       });
   }
 
