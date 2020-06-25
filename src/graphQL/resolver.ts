@@ -89,7 +89,7 @@ const mainResolver = {
 
         // user specific seearch history
         const searchDb = new SearchHistory(
-            searchInput.querySearch, 
+            query, 
             searchInput.geoFence, 
             searchInput.latitude, 
             searchInput.longitude,
